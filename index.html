@@ -109,12 +109,13 @@ select option{color:var(--text);background:#fff;}
 .score-bar-wrap{flex:1;height:5px;background:rgba(0,0,0,0.08);border-radius:3px;overflow:hidden;}
 .score-bar{height:100%;border-radius:3px;background:var(--grad);}
 .score-pct{font-size:0.72rem;color:var(--muted);font-weight:700;width:28px;text-align:right;}
-.consent-row{display:flex;align-items:flex-start;gap:11px;margin-bottom:14px;padding:14px;border:1.5px solid var(--line);border-radius:10px;cursor:pointer;transition:all 0.2s;}
+/* CONSENT — fix coche */
+.consent-row{display:flex;align-items:flex-start;gap:11px;margin-bottom:14px;padding:14px;border:1.5px solid var(--line);border-radius:10px;cursor:pointer;transition:all 0.2s;user-select:none;}
 .consent-row:hover{border-color:rgba(25,118,210,0.3);background:rgba(25,118,210,0.02);}
 .consent-row.checked{border-color:var(--teal);background:rgba(0,191,165,0.05);}
 .consent-row input[type="checkbox"]{width:17px;height:17px;accent-color:var(--teal);flex-shrink:0;margin-top:2px;cursor:pointer;}
-.consent-row label{font-size:0.82rem;color:var(--mid);margin-bottom:0;cursor:pointer;line-height:1.55;}
-.consent-row .req{color:var(--error);}
+.consent-txt{font-size:0.82rem;color:var(--mid);line-height:1.55;}
+.consent-txt .req{color:var(--error);}
 .divider{height:1px;background:var(--line);margin:28px 0;}
 .err-msg{font-size:0.75rem;color:var(--error);margin-top:5px;display:none;align-items:center;gap:4px;}
 .err-msg::before{content:'⚠';font-size:0.7rem;}
@@ -196,13 +197,11 @@ footer strong{background:var(--grad);-webkit-background-clip:text;-webkit-text-f
       <div class="section-title">Présentez votre équipe</div>
       <p class="section-desc">Donnez une identité forte à votre team. Vous devrez être 2 à 5 participantes, toutes issues de Maroua ou de l'Extrême-Nord.</p>
       <div class="info-box"><strong>🏆 Objectif du challenge :</strong> Transformer une idée en prototype numérique (MVP) qui résout un défi local à Maroua ou dans l'Extrême-Nord. Soft skills, mindset, leadership et innovation au programme !</div>
-
       <div class="field" id="f-tname">
         <label>Nom de l'équipe <span class="req">*</span></label>
         <input type="text" id="tname" placeholder="Un nom original et percutant — Ex : NovaTech, DataSisters, InnoveElles…" maxlength="60">
         <div class="err-msg">Veuillez saisir un nom pour votre équipe.</div>
       </div>
-
       <div class="field" id="f-domain">
         <label>Domaine technique de votre projet <span class="req">*</span><span class="hint">— Vous serez coachées selon ce choix</span></label>
         <div class="domain-grid">
@@ -215,7 +214,6 @@ footer strong{background:var(--grad);-webkit-background-clip:text;-webkit-text-f
         </div>
         <div class="err-msg" id="domain-err">Veuillez choisir un domaine technique.</div>
       </div>
-
       <div class="field">
         <label>Nombre de membres <span class="req">*</span></label>
         <div class="opts-grid">
@@ -225,7 +223,6 @@ footer strong{background:var(--grad);-webkit-background-clip:text;-webkit-text-f
           <label class="opt"><input type="radio" name="nb" value="5"><div class="opt-label"><span class="opt-icon">👥</span>5 membres<span class="opt-check"></span></div></label>
         </div>
       </div>
-
       <div class="form-nav">
         <div></div>
         <button class="btn-next" onclick="go(2)">Suivant — Membres de l'équipe <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
@@ -357,14 +354,17 @@ footer strong{background:var(--grad);-webkit-background-clip:text;-webkit-text-f
       </div>
       <div class="divider"></div>
       <p style="font-size:0.82rem;color:var(--mid);margin-bottom:16px;font-weight:600;">✅ Veuillez cocher toutes les cases pour finaliser votre inscription :</p>
-      <label class="consent-row" id="cr3" onclick="toggleConsent('cr3')">
-        <input type="checkbox" id="c3">
-        <label for="c3">J'accepte que des photos et vidéos prises lors de l'événement soient utilisées pour la communication de Women Techmakers Maroua. <span class="req">*</span></label>
+
+      <!-- CONSENT — un seul label, pas de label imbriqué -->
+      <label class="consent-row" id="cr3" for="c3">
+        <input type="checkbox" id="c3" onchange="document.getElementById('cr3').classList.toggle('checked',this.checked)">
+        <span class="consent-txt">J'accepte que des photos et vidéos prises lors de l'événement soient utilisées pour la communication de Women Techmakers Maroua. <span class="req">*</span></span>
       </label>
-      <label class="consent-row" id="cr4" onclick="toggleConsent('cr4')">
-        <input type="checkbox" id="c4">
-        <label for="c4">Je comprends que cet événement est gratuit et bénévole, dans l'esprit "Break the Pattern". <span class="req">*</span></label>
+      <label class="consent-row" id="cr4" for="c4">
+        <input type="checkbox" id="c4" onchange="document.getElementById('cr4').classList.toggle('checked',this.checked)">
+        <span class="consent-txt">Je comprends que cet événement est gratuit et bénévole, dans l'esprit "Break the Pattern". <span class="req">*</span></span>
       </label>
+
       <div class="form-nav">
         <button class="btn-back" onclick="go(3)"><svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Retour</button>
         <button class="btn-next" onclick="submit()" style="background:linear-gradient(135deg,#00897B,#00BFA5);box-shadow:0 4px 18px rgba(0,191,165,0.3)">✊ Soumettre l'inscription</button>
@@ -404,38 +404,30 @@ function go(step) {
   if (step === 3 && !v2()) return;
   if (step === 4 && !v3()) return;
   for (let i = 1; i <= 4; i++) {
-    const el = document.getElementById('s' + i);
+    const el = document.getElementById('s'+i);
     if (el) el.style.display = i === step ? 'block' : 'none';
   }
   const progMap = {1:'25%',2:'50%',3:'75%',4:'100%'};
   document.getElementById('prog').style.width = progMap[step] || '25%';
-  ['tab1','tab2','tab3','tab4'].forEach((id, idx) => {
+  ['tab1','tab2','tab3','tab4'].forEach((id,idx) => {
     const t = document.getElementById(id);
     if (!t) return;
     if (idx+1 < step) t.className = 'tab done';
     else if (idx+1 === step) t.className = 'tab active';
     else t.className = 'tab inactive';
   });
-  window.scrollTo({top:0, behavior:'smooth'});
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 function v1() {
   let ok = true;
   const tn = document.getElementById('tname');
-  if (!tn || !tn.value.trim()) {
-    ok = false;
-    document.getElementById('f-tname')?.classList.add('has-error');
-  } else {
-    document.getElementById('f-tname')?.classList.remove('has-error');
-  }
+  if (!tn || !tn.value.trim()) { ok=false; document.getElementById('f-tname')?.classList.add('has-error'); }
+  else { document.getElementById('f-tname')?.classList.remove('has-error'); }
   const domain = document.querySelector('input[name="domain"]:checked');
   const domErr = document.getElementById('domain-err');
-  if (!domain) {
-    ok = false;
-    if (domErr) domErr.style.display = 'flex';
-  } else {
-    if (domErr) domErr.style.display = 'none';
-  }
+  if (!domain) { ok=false; if (domErr) domErr.style.display='flex'; }
+  else { if (domErr) domErr.style.display='none'; }
   return ok;
 }
 
@@ -444,47 +436,46 @@ function v2() { return true; }
 function v3() {
   let ok = true;
   const pb = document.getElementById('pb');
-  if (!pb || !pb.value.trim()) { ok = false; document.getElementById('f-pb')?.classList.add('has-error'); }
+  if (!pb||!pb.value.trim()) { ok=false; document.getElementById('f-pb')?.classList.add('has-error'); }
   else { document.getElementById('f-pb')?.classList.remove('has-error'); }
   const sol = document.getElementById('sol');
-  if (!sol || !sol.value.trim()) { ok = false; document.getElementById('f-sol')?.classList.add('has-error'); }
+  if (!sol||!sol.value.trim()) { ok=false; document.getElementById('f-sol')?.classList.add('has-error'); }
   else { document.getElementById('f-sol')?.classList.remove('has-error'); }
   const lvl = document.querySelector('input[name="lvl"]:checked');
   const lvlErr = document.getElementById('lvl-err');
-  if (!lvl) { ok = false; if (lvlErr) lvlErr.style.display = 'flex'; }
-  else { if (lvlErr) lvlErr.style.display = 'none'; }
+  if (!lvl) { ok=false; if (lvlErr) lvlErr.style.display='flex'; }
+  else { if (lvlErr) lvlErr.style.display='none'; }
   return ok;
 }
 
 function collectData() {
   return {
-    "Nom de l'équipe": document.getElementById('tname')?.value.trim() || "",
-    "Domaine technique": document.querySelector('input[name="domain"]:checked')?.value || "",
-    "Nombre de membres": document.querySelector('input[name="nb"]:checked')?.value || "",
-    "Cheffe — Prénom": document.querySelector('#mb1 .mp')?.value.trim() || "",
-    "Cheffe — Nom": document.querySelector('#mb1 .mn')?.value.trim() || "",
-    "Cheffe — Filière": document.querySelector('#mb1 .mf')?.value.trim() || "",
-    "Cheffe — WhatsApp": document.getElementById('phone')?.value.trim() || "",
-    "Email": document.getElementById('email')?.value.trim() || "",
-    "Membres supplémentaires": (() => {
-      let txt = [];
-      [2,3,4,5].forEach(i => {
-        const b = document.getElementById('mb'+i);
-        if (!b) return;
-        const p = b.querySelector('.mp')?.value.trim();
-        const n = b.querySelector('.mn')?.value.trim();
-        const f = b.querySelector('.mf')?.value.trim();
-        if (p || n) txt.push('Membre '+i+': '+p+' '+n+' | '+f);
+    "Nom de l'équipe": document.getElementById('tname')?.value.trim()||"",
+    "Domaine technique": document.querySelector('input[name="domain"]:checked')?.value||"",
+    "Nombre de membres": document.querySelector('input[name="nb"]:checked')?.value||"",
+    "Cheffe — Prénom": document.querySelector('#mb1 .mp')?.value.trim()||"",
+    "Cheffe — Nom": document.querySelector('#mb1 .mn')?.value.trim()||"",
+    "Cheffe — Filière": document.querySelector('#mb1 .mf')?.value.trim()||"",
+    "Cheffe — WhatsApp": document.getElementById('phone')?.value.trim()||"",
+    "Email": document.getElementById('email')?.value.trim()||"",
+    "Membres supplémentaires": (()=>{
+      let txt=[];
+      [2,3,4,5].forEach(i=>{
+        const b=document.getElementById('mb'+i); if(!b)return;
+        const p=b.querySelector('.mp')?.value.trim();
+        const n=b.querySelector('.mn')?.value.trim();
+        const f=b.querySelector('.mf')?.value.trim();
+        if(p||n) txt.push('Membre '+i+': '+p+' '+n+' | '+f);
       });
-      return txt.join('\n') || "Aucun";
+      return txt.join('\n')||"Aucun";
     })(),
-    "Défi local identifié": document.getElementById('pb')?.value.trim() || "",
-    "Solution proposée": document.getElementById('sol')?.value.trim() || "",
-    "Type de prototype": document.querySelector('input[name="proto"]:checked')?.value || "",
-    "Niveau du projet": document.querySelector('input[name="lvl"]:checked')?.value || "",
-    "Motivation": document.getElementById('motiv')?.value.trim() || "",
-    "Source de découverte": document.getElementById('src')?.value || "",
-    "_subject": "Nouvelle inscription WTM — "+(document.getElementById('tname')?.value.trim() || "")
+    "Défi local identifié": document.getElementById('pb')?.value.trim()||"",
+    "Solution proposée": document.getElementById('sol')?.value.trim()||"",
+    "Type de prototype": document.querySelector('input[name="proto"]:checked')?.value||"",
+    "Niveau du projet": document.querySelector('input[name="lvl"]:checked')?.value||"",
+    "Motivation": document.getElementById('motiv')?.value.trim()||"",
+    "Source de découverte": document.getElementById('src')?.value||"",
+    "_subject": "Nouvelle inscription WTM — "+(document.getElementById('tname')?.value.trim()||"")
   };
 }
 
@@ -493,64 +484,49 @@ async function submit() {
   const c3 = document.getElementById('c3').checked;
   const c4 = document.getElementById('c4').checked;
   if (!em) { alert('Veuillez saisir votre adresse email.'); return; }
-  if (!c3 || !c4) { alert("Veuillez cocher toutes les cases d'engagement avant de soumettre."); return; }
+  if (!c3||!c4) { alert("Veuillez cocher toutes les cases d'engagement avant de soumettre."); return; }
   const btn = document.querySelector('#s4 .btn-next');
   const originalText = btn.innerHTML;
   btn.innerHTML = "⏳ Envoi en cours...";
   btn.disabled = true;
   fetch(FORMSPREE_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(collectData())
+    method:'POST', mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(collectData())
   });
   showSuccess();
 }
 
 function showSuccess() {
-  for (let i = 1; i <= 4; i++) {
-    const el = document.getElementById('s'+i);
-    if (el) el.style.display = 'none';
-  }
-  document.getElementById('sOK').style.display = 'block';
-  document.getElementById('prog').style.width = '100%';
-  ['tab1','tab2','tab3','tab4'].forEach(id => {
-    const t = document.getElementById(id);
-    if (t) t.className = 'tab done';
-  });
-  window.scrollTo({top:0, behavior:'smooth'});
+  for (let i=1;i<=4;i++) { const el=document.getElementById('s'+i); if(el) el.style.display='none'; }
+  document.getElementById('sOK').style.display='block';
+  document.getElementById('prog').style.width='100%';
+  ['tab1','tab2','tab3','tab4'].forEach(id=>{ const t=document.getElementById(id); if(t) t.className='tab done'; });
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 function addMember() {
-  if (mbCount >= 5) return;
+  if (mbCount>=5) return;
   mbCount++;
   const wrap = document.getElementById('membersWrap');
   const d = document.createElement('div');
-  d.className = 'member-block';
-  d.id = 'mb'+mbCount;
-  d.innerHTML = '<div class="member-head"><div class="member-head-label">👤 Membre '+mbCount+'</div><button class="remove-btn" type="button" onclick="removeMb('+mbCount+')">✕ Retirer</button></div><div class="member-body"><div class="field-row"><div class="field"><label>Prénom</label><input type="text" class="mp" placeholder="Prénom"></div><div class="field"><label>Nom</label><input type="text" class="mn" placeholder="Nom de famille"></div></div><div class="field-row"><div class="field"><label>Filière / Spécialité</label><input type="text" class="mf" placeholder="Ex : Informatique, Réseaux…"></div><div class="field"><label>Établissement</label><select class="me"><option value="">Choisir…</option><option>UMa</option><option>Keyce Academy</option><option>ISTAM</option><option>IUT Maroua</option><option>ENSET</option><option>HTTTC</option><option>Autre</option></select></div></div></div>';
+  d.className='member-block'; d.id='mb'+mbCount;
+  d.innerHTML='<div class="member-head"><div class="member-head-label">👤 Membre '+mbCount+'</div><button class="remove-btn" type="button" onclick="removeMb('+mbCount+')">✕ Retirer</button></div><div class="member-body"><div class="field-row"><div class="field"><label>Prénom</label><input type="text" class="mp" placeholder="Prénom"></div><div class="field"><label>Nom</label><input type="text" class="mn" placeholder="Nom de famille"></div></div><div class="field-row"><div class="field"><label>Filière / Spécialité</label><input type="text" class="mf" placeholder="Ex : Informatique, Réseaux…"></div><div class="field"><label>Établissement</label><select class="me"><option value="">Choisir…</option><option>UMa</option><option>Keyce Academy</option><option>ISTAM</option><option>IUT Maroua</option><option>ENSET</option><option>HTTTC</option><option>Autre</option></select></div></div></div>';
   wrap.appendChild(d);
-  if (mbCount >= 5) document.getElementById('addMbBtn').style.display = 'none';
+  if (mbCount>=5) document.getElementById('addMbBtn').style.display='none';
 }
 
 function removeMb(id) {
   document.getElementById('mb'+id)?.remove();
   mbCount--;
-  document.getElementById('addMbBtn').style.display = 'flex';
+  document.getElementById('addMbBtn').style.display='flex';
 }
 
-function toggleConsent(id) {
-  const row = document.getElementById(id);
-  const cb = row?.querySelector('input[type="checkbox"]');
-  if (cb) { cb.checked = !cb.checked; row.classList.toggle('checked', cb.checked); }
-}
-
-function cnt(el, counterId, max) {
-  const rem = max - el.value.length;
-  const c = document.getElementById(counterId);
-  if (!c) return;
-  c.textContent = rem + ' caractères restants';
-  c.className = 'char-count' + (rem < 50 ? ' warn' : '');
+function cnt(el,counterId,max) {
+  const rem=max-el.value.length;
+  const c=document.getElementById(counterId); if(!c)return;
+  c.textContent=rem+' caractères restants';
+  c.className='char-count'+(rem<50?' warn':'');
 }
 </script>
 </body>
